@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+@import 'toastify-js/src/toastify.css';
+
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source "../node_modules/flowbite";
+
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-primary-50: #EBF5FF;
+    --color-primary-100: #E1EFFE;
+    --color-primary-200: #C3DDFD;
+    --color-primary-300: #A4CAFE;
+    --color-primary-400: #76A9FA;
+    --color-primary-500: #3F83F8;
+    --color-primary-600: #1C64F2;
+    --color-primary-700: #1A56DB;
+    --color-primary-800: #1E429F;
+    --color-primary-900: #233876;
+
+    --color-accent: #3F83F8;
+    --color-accent-content: #3F83F8;
+    --color-accent-foreground: #ffffff;
+    --color-primary: #3F83F8;
+    --color-primary-foreground: #ffffff;
+}
+
+@layer theme {
+    .dark {
+        --color-primary-50: #233876;
+        --color-primary-100: #1E429F;
+        --color-primary-200: #1A56DB;
+        --color-primary-300: #1C64F2;
+        --color-primary-400: #3F83F8;
+        --color-primary-500: #3F83F8;
+        --color-primary-600: #76A9FA;
+        --color-primary-700: #A4CAFE;
+        --color-primary-800: #C3DDFD;
+        --color-primary-900: #E1EFFE;
+
+        --color-accent: #3F83F8;
+        --color-accent-content: #3F83F8;
+        --color-accent-foreground: #ffffff;
+        --color-primary: #3F83F8;
+        --color-primary-foreground: #ffffff;
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */

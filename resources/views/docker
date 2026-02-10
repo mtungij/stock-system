@@ -1,0 +1,11 @@
+docker run -it -d \
+  --label traefik.http.routers.isyesye.rule=Host\(\`isyesye.phamasoft.com\`\) \
+  --label traefik.http.routers.isyesye.tls.certresolver=lets-encrypt \
+  --label traefik.http.routers.isyesye.tls=true \
+  --label traefik.http.routers.isyesye.service=isyesye-credit-http \
+  --label traefik.http.services.isyesye-credit-http.loadbalancer.server.port=80 \
+  --name isyesye \
+  --network web \
+  --restart always \
+  --expose 80 \
+ubuntu:latest 
