@@ -1,8 +1,6 @@
 const CACHE_NAME = 'ims-v1';
 const urlsToCache = [
   '/',
-  '/css/app.css',
-  '/js/app.js',
   '/images/icons/icon-192x192.png',
   '/images/icons/icon-512x512.png'
 ];
@@ -13,7 +11,10 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        // Try to cache, but don't fail installation if some URLs fail
+        return Promise.allSettled(
+          urlsToCache.map(url => cache.add(url).catch(err => console.log('Failed to cache:', url, err)))
+        );
       })
       .catch((error) => {
         console.log('Cache addAll error:', error);
@@ -24,6 +25,12 @@ self.addEventListener('install', (event) => {
 
 // Fetch from cache
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+  
+  // Skip cross-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) return;
+  
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -32,7 +39,10 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
         
-        return fetch(event.request).then(
+        // Clone the request
+        const fetchRequest = event.request.clone();
+        
+        return fetch(fetchRequest).then(
           (response) => {
             // Check if we received a valid response
             if (!response || response.status !== 200 || response.type !== 'basic') {
@@ -49,11 +59,10 @@ self.addEventListener('fetch', (event) => {
 
             return response;
           }
-        );
-      })
-      .catch(() => {
-        // Return a custom offline page if available
-        return caches.match('/offline.html');
+        ).catch(() => {
+          // Return a custom offline page if available
+          return caches.match('/offline.html');
+        });
       })
   );
 });
