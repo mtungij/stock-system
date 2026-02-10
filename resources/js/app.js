@@ -35,34 +35,62 @@ if ('serviceWorker' in navigator) {
 
 // PWA Install Prompt
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-	// Prevent the mini-infobar from appearing on mobile
-	e.preventDefault();
-	// Stash the event so it can be triggered later.
-	deferredPrompt = e;
-	// Show install button/banner
-	showInstallPromotion();
-});
 
-function showInstallPromotion() {
-	// You can show a custom install button here
+// Attach click handler on page load
+function attachInstallHandler() {
 	const installButton = document.getElementById('pwa-install-btn');
-	if (installButton) {
-		installButton.style.display = 'block';
+	if (installButton && !installButton.dataset.listenerAttached) {
+		installButton.dataset.listenerAttached = 'true';
 		installButton.addEventListener('click', async () => {
 			if (deferredPrompt) {
-				deferredPrompt.prompt();
-				const { outcome } = await deferredPrompt.userChoice;
-				console.log(`User response to the install prompt: ${outcome}`);
-				deferredPrompt = null;
-				installButton.style.display = 'none';
+				try {
+					deferredPrompt.prompt();
+					const { outcome } = await deferredPrompt.userChoice;
+					console.log(`User response to the install prompt: ${outcome}`);
+					if (outcome === 'accepted') {
+						console.log('User accepted the install prompt');
+					} else {
+						console.log('User dismissed the install prompt');
+					}
+					deferredPrompt = null;
+					installButton.style.display = 'none';
+				} catch (error) {
+					console.error('Error showing install prompt:', error);
+				}
+			} else {
+				console.log('Install prompt not available. Try installing from browser menu.');
+				alert('Please install the app from your browser menu:\nChrome: Menu → Install app\niOS Safari: Share → Add to Home Screen');
 			}
 		});
 	}
 }
 
+// Run on initial load
+attachInstallHandler();
+
+// Re-attach after Livewire navigation
+document.addEventListener('livewire:navigated', attachInstallHandler);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+	console.log('beforeinstallprompt event fired');
+	// Prevent the mini-infobar from appearing on mobile
+	e.preventDefault();
+	// Stash the event so it can be triggered later.
+	deferredPrompt = e;
+	// Show install button
+	const installButton = document.getElementById('pwa-install-btn');
+	if (installButton) {
+		installButton.style.display = 'block';
+		console.log('Install button is now visible and ready');
+	}
+});
+
 // Track when app is installed
 window.addEventListener('appinstalled', () => {
 	console.log('PWA was installed');
 	deferredPrompt = null;
+	const installButton = document.getElementById('pwa-install-btn');
+	if (installButton) {
+		installButton.style.display = 'none';
+	}
 });
