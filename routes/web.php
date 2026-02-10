@@ -6,6 +6,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
+
+Route::get('/php-version', function () {
+    return 'PHP version used by Laravel: ' . phpversion();
+});
+
+
 // Registration Steps
 Route::get('register/company', [App\Http\Controllers\Auth\RegistrationStepController::class, 'showCompany'])
     ->middleware('guest')
