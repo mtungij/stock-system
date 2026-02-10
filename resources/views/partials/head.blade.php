@@ -13,7 +13,7 @@
 <meta name="msapplication-TileColor" content="#0891b2">
 <meta name="msapplication-tap-highlight" content="no">
 <meta name="description" content="Complete inventory management system for tracking sales, purchases, and stock">
-
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <!-- Manifest -->
 <link rel="manifest" href="/manifest.json">
 
