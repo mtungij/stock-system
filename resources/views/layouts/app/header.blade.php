@@ -41,9 +41,6 @@
                 </flux:tooltip>
             </flux:navbar>
 
-            <!-- PWA Install Button -->
-            <x-pwa-install-button />
-
             <x-desktop-user-menu />
         </flux:header>
 

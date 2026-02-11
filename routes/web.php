@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,9 +32,15 @@ Route::get('register/admin', [App\Http\Controllers\Auth\RegistrationStepControll
     ->middleware('guest')
     ->name('register.admin');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::get('dashboard', function() {
+//     $user = Auth::user();
+//     if ($user && $user->role && $user->role->role_name === 'Sales Person') {
+//         return redirect()->route('pages.dashboard.saleperson-dashboard');
+//     }
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::livewire('dashboard/saleperson', 'pages.dashboard.saleperson-dashboard')->middleware(['auth', 'verified'])->name('pages.dashboard.saleperson-dashboard');
 
     Route::livewire('/stock/create', 'pages::stock.create');
     Route::livewire('/stock/adjust', 'pages::stock.adjust');
@@ -46,6 +53,8 @@ Route::view('dashboard', 'dashboard')
     Route::livewire('reports/report','pages::reports.report');
     Route::livewire('reports/sales-report','pages::reports.sales-report');
     Route::livewire('reports/outstock','pages::reports.outstock');
+    Route::livewire('reports/fastmoving','pages::reports.fastmoving');
+    Route::livewire('reports/dead-stock','pages::reports.dead-stock');
     Route::livewire('reports/branch-performance','pages::reports.branch-performance');
     
     Route::get('/stock/pdf', [App\Http\Controllers\StockController::class, 'showPdf'])
