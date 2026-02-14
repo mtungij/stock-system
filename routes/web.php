@@ -32,13 +32,13 @@ Route::get('register/admin', [App\Http\Controllers\Auth\RegistrationStepControll
     ->middleware('guest')
     ->name('register.admin');
 
-// Route::get('dashboard', function() {
-//     $user = Auth::user();
-//     if ($user && $user->role && $user->role->role_name === 'Sales Person') {
-//         return redirect()->route('pages.dashboard.saleperson-dashboard');
-//     }
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', function() {
+    $user = Auth::user();
+    if ($user && $user->role && $user->role->role_name === 'Sales Person') {
+        return view('sellerDashboard.Dashboard');
+    }
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::livewire('dashboard/saleperson', 'pages.dashboard.saleperson-dashboard')->middleware(['auth', 'verified'])->name('pages.dashboard.saleperson-dashboard');
 
