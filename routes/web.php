@@ -1,3 +1,5 @@
+// PWA offline fallback
+Route::view('/offline', 'offline')->name('offline');
 <?php
 
 use Illuminate\Support\Facades\Auth;
