@@ -2,9 +2,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>{{ $title ?? config('app.name') }}</title>
-
-<meta name="description" content="Complete inventory management system for tracking sales, purchases, and stock">
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta name="description" content="Complete inventory management system for tracking sales, purchases, and stock">
+
 <!-- Icons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
